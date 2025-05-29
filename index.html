@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Movies Mode On</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #111;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+    header {
+      background: #222;
+      padding: 20px 10px;
+    }
+    h1 {
+      color: #0f0;
+    }
+    .category {
+      margin: 20px;
+    }
+    .button {
+      display: inline-block;
+      background: #0f0;
+      color: #000;
+      padding: 10px 20px;
+      margin: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .button:disabled {
+      background: #444;
+      color: #aaa;
+      cursor: not-allowed;
+    }
+    .hidden {
+      display: none;
+    }
+    #verify-box {
+      margin: 30px 0;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🎬 Movies Mode On 🎬</h1>
+    <p>Watch & Download Movies and Animes</p>
+  </header>
+
+  <section class="category">
+    <h2>Movies</h2>
+    <p>Tamil | Kannada | Hindi | English | Japanese</p>
+  </section>
+
+  <section class="category">
+    <h2>Animes</h2>
+    <p>Tamil | English | Japanese</p>
+  </section>
+
+  <section id="verify-box">
+    <h2>Verification Required</h2>
+    <p>Click the button 3 times and wait 15 seconds each time.</p>
+    <button class="button" id="verify-btn">Continue</button>
+    <p id="timer"></p>
+    <p id="step-info"></p>
+    <button class="button hidden" id="verify-final">Verify Now</button>
+  </section>
+
+  <script>
+    let clicks = 0;
+    const verifyBtn = document.getElementById('verify-btn');
+    const timerEl = document.getElementById('timer');
+    const stepInfo = document.getElementById('step-info');
+    const finalVerify = document.getElementById('verify-final');
+
+    verifyBtn.addEventListener('click', () => {
+      verifyBtn.disabled = true;
+      let countdown = 15;
+      timerEl.textContent = `Wait ${countdown} seconds...`;
+      const interval = setInterval(() => {
+        countdown--;
+        timerEl.textContent = `Wait ${countdown} seconds...`;
+        if (countdown === 0) {
+          clearInterval(interval);
+          clicks++;
+          verifyBtn.disabled = false;
+          timerEl.textContent = '';
+          stepInfo.textContent = `Step ${clicks} complete.`;
+          if (clicks >= 3) {
+            verifyBtn.classList.add('hidden');
+            finalVerify.classList.remove('hidden');
+          }
+        }
+      }, 1000);
+    });
+
+    finalVerify.addEventListener('click', () => {
+      alert('Verification complete! You can now access the content.');
+    });
+  </script>
+</body>
+</html>
